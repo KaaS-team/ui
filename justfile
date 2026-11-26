@@ -2,7 +2,7 @@
 
 default: check
 
-check: fmt vet test tokens prose
+check: fmt vet test tokens prose axe
 
 # gofmt lists unformatted files; any output fails.
 fmt:
@@ -22,3 +22,15 @@ tokens:
 # House prose rules on every tracked or new Markdown file outside the vendored kit.
 prose:
     git ls-files --cached --others --exclude-standard '*.md' | grep -v '^scripts/kaas/' | xargs python3 scripts/kaas/check-prose.py
+
+# axe-core on /_ui/catalogue (every partial in every state), light and dark, 1280 and 390 wide. Zero violations.
+# Installs the pinned dev dependencies on first run; on CI it also fetches the Chromium build Playwright pins.
+axe:
+    @[ -d node_modules/axe-core ] || npm ci --no-audit --no-fund
+    @if [ -n "${CI:-}" ]; then npx playwright install chromium; fi
+    node catalogue/axe.mjs
+
+# Full-page screenshots of the catalogue in the same four views, into reports/cloud/U2 or the given folder.
+screens dir="reports/cloud/U2":
+    @[ -d node_modules/playwright ] || npm ci --no-audit --no-fund
+    node catalogue/screens.mjs {{dir}}

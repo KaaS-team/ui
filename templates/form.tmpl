@@ -1,12 +1,14 @@
-{{/* form: labelled fields and one submit button. Data: ui.Form. */}}
-{{define "form"}}<form class="ui-form" action="{{.Action}}" method="{{or .Method "post"}}">
+{{/* form: labelled fields and one submit button. Help and errors are tied to their field. Data: ui.Form. */}}
+{{define "form"}}{{$id := or .ID "f"}}<form class="ui-form" action="{{.Action}}" method="{{or .Method "post"}}"{{if .Error}} aria-describedby="{{$id}}-error"{{end}}>
 {{with .CSRF}}<input type="hidden" name="csrf" value="{{.}}">{{end}}
-{{range .Fields}}<div class="ui-field">
-<label for="f-{{.Name}}">{{.Label}}</label>
-{{if eq .Type "textarea"}}<textarea class="ui-input" id="f-{{.Name}}" name="{{.Name}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}>{{.Value}}</textarea>
-{{else if eq .Type "select"}}<select class="ui-input" id="f-{{.Name}}" name="{{.Name}}"{{if .Required}} required{{end}}>{{$v := .Value}}{{range .Options}}<option{{if eq . $v}} selected{{end}}>{{.}}</option>{{end}}</select>
-{{else}}<input class="ui-input" id="f-{{.Name}}" name="{{.Name}}" type="{{or .Type "text"}}" value="{{.Value}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}>
-{{end}}{{with .Help}}<p class="ui-field-help">{{.}}</p>{{end}}
+{{with .Error}}<p class="ui-form-error" id="{{$id}}-error" role="alert">{{.}}</p>{{end}}
+{{range .Fields}}{{$fid := printf "%s-%s" $id .Name}}<div class="ui-field"{{if .Error}} data-status="fail"{{end}}>
+<label for="{{$fid}}">{{.Label}}{{if .Required}} <span class="ui-field-required">(required)</span>{{end}}</label>
+{{$desc := ""}}{{if .Help}}{{$desc = printf "%s-help" $fid}}{{end}}{{if .Error}}{{$desc = printf "%s %s-error" $desc $fid}}{{end}}{{if eq .Type "textarea"}}<textarea class="ui-input" id="{{$fid}}" name="{{.Name}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}{{if .Error}} aria-invalid="true"{{end}}{{with $desc}} aria-describedby="{{.}}"{{end}}>{{.Value}}</textarea>
+{{else if eq .Type "select"}}<select class="ui-input" id="{{$fid}}" name="{{.Name}}"{{if .Required}} required{{end}}{{if .Error}} aria-invalid="true"{{end}}{{with $desc}} aria-describedby="{{.}}"{{end}}>{{$v := .Value}}{{range .Options}}<option{{if eq . $v}} selected{{end}}>{{.}}</option>{{end}}</select>
+{{else}}<input class="ui-input" id="{{$fid}}" name="{{.Name}}" type="{{or .Type "text"}}" value="{{.Value}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}{{if .Error}} aria-invalid="true"{{end}}{{with $desc}} aria-describedby="{{.}}"{{end}}>
+{{end}}{{with .Help}}<p class="ui-field-help" id="{{$fid}}-help">{{.}}</p>{{end}}
+{{with .Error}}<p class="ui-field-error" id="{{$fid}}-error">{{.}}</p>{{end}}
 </div>
 {{end}}{{template "button" .Submit}}
 </form>{{end}}

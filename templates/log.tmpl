@@ -1,6 +1,6 @@
-{{/* log: run output, one line each. Data: ui.Log. */}}
+{{/* log: run output, one line each, in an ARIA log region. Data: ui.Log. */}}
 {{define "log"}}<section class="ui-log-wrap">
 {{with .Title}}<h3>{{.}}</h3>{{end}}
-<pre class="ui-log">{{range .Lines}}<span class="ui-log-line"{{with .Status}} data-status="{{.}}"{{end}}>{{with .Time}}<time>{{.}}</time> {{end}}{{.Text}}</span>
-{{end}}</pre>
+<pre class="ui-log" role="log" tabindex="0"{{with .Title}} aria-label="{{.}} output"{{else}} aria-label="Output"{{end}}{{if .Live}} aria-busy="true"{{end}}>{{range .Lines}}<span class="ui-log-line"{{with .Status}} data-status="{{.}}"{{end}}>{{with .Time}}<time>{{.}}</time> {{end}}{{.Text}}</span>
+{{else}}<span class="ui-log-line">{{or .Empty "No output yet."}}</span>{{end}}</pre>
 </section>{{end}}

@@ -1,0 +1,66 @@
+/* Layout for /_ui/catalogue only: the grid of states around each partial. Partials themselves are styled by css/. */
+.cat-header {
+  margin-bottom: var(--ui-space-6);
+}
+.cat-header h1 {
+  font-size: var(--ui-type-xl);
+  line-height: 1.2;
+}
+.cat-intro,
+.cat-summary {
+  color: var(--ui-muted);
+  max-width: 72ch;
+}
+.cat-section {
+  margin-bottom: var(--ui-space-7);
+  scroll-margin-top: var(--ui-space-5);
+}
+.cat-section h2 {
+  font-size: var(--ui-type-lg);
+  padding-bottom: var(--ui-space-2);
+  border-bottom: 1px solid var(--ui-border);
+  margin-bottom: var(--ui-space-2);
+}
+.cat-summary {
+  font-size: var(--ui-type-sm);
+  margin-bottom: var(--ui-space-4);
+}
+.cat-states {
+  display: grid;
+  gap: var(--ui-space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+}
+.cat-state {
+  min-width: 0;
+  padding: var(--ui-space-4);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  overflow-wrap: break-word;
+}
+.cat-state[data-wide] {
+  grid-column: 1 / -1;
+}
+.cat-state figcaption {
+  font-size: var(--ui-type-xs);
+  color: var(--ui-muted);
+  margin-bottom: var(--ui-space-3);
+}
+.cat-demo {
+  min-width: 0;
+}
+.cat-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--ui-space-2);
+}
+.cat-source {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-type-xs);
+  white-space: pre;
+  overflow-x: auto;
+  padding: var(--ui-space-3);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-raised);
+}

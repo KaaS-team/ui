@@ -1,0 +1,16 @@
+{{/* page: the main column of /_ui/catalogue. Data: the rendered sections from catalogue.go. */}}
+{{define "page"}}<header class="cat-header">
+<h1>Catalogue</h1>
+<p class="cat-intro">Every partial in every state, drawn from sample data. Light or dark follows the system setting.</p>
+</header>
+{{range .}}<section class="cat-section" id="{{.Name}}" aria-labelledby="{{.Name}}-title">
+<h2 id="{{.Name}}-title"><code>{{.Name}}</code></h2>
+<p class="cat-summary">{{.Summary}}</p>
+{{if .States}}<div class="cat-states">
+{{range .States}}<figure class="cat-state"{{if .Wide}} data-wide{{end}}>
+<figcaption>{{.Label}}</figcaption>
+<div class="cat-demo">{{.HTML}}</div>
+</figure>
+{{end}}</div>{{end}}
+</section>
+{{end}}{{end}}

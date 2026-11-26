@@ -76,7 +76,7 @@ func TestFilesMatchNames(t *testing.T) {
 		name := strings.TrimSuffix(e.Name(), ".tmpl")
 		files = append(files, name)
 		src, _ := templateFiles.ReadFile("templates/" + e.Name())
-		trees, err := parse.Parse(name, string(src), "{{", "}}", map[string]any{"or": true, "eq": true})
+		trees, err := parse.Parse(name, string(src), "{{", "}}", builtins)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -129,6 +129,9 @@ func TestHandlerServesCSS(t *testing.T) {
 		}
 	}
 }
+
+// builtins are the text/template functions a partial may call; parse.Parse knows none by itself.
+var builtins = map[string]any{"and": true, "or": true, "not": true, "eq": true, "ne": true, "len": true, "printf": true, "index": true}
 
 var (
 	tagRe = regexp.MustCompile(`<(/?)([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>`)

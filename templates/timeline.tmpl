@@ -1,8 +1,8 @@
-{{/* timeline: events oldest first. Data: ui.Timeline. */}}
-{{define "timeline"}}<ol class="ui-timeline">
+{{/* timeline: events oldest first, or what it says before the first event. Data: ui.Timeline. */}}
+{{define "timeline"}}{{if .Events}}<ol class="ui-timeline" aria-label="{{or .Label "Timeline"}}">
 {{range .Events}}<li{{with .Status}} data-status="{{.}}"{{end}}>
 <time>{{.Time}}</time>
 <p class="ui-timeline-title">{{.Title}}</p>
 {{with .Body}}<p>{{.}}</p>{{end}}
 </li>
-{{end}}</ol>{{end}}
+{{end}}</ol>{{else}}<p class="ui-timeline-empty">{{or .Empty "Nothing has happened yet."}}</p>{{end}}{{end}}

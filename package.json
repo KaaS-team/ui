@@ -5,15 +5,32 @@
   "license": "Apache-2.0",
   "private": true,
   "type": "module",
-  "files": ["css", "tokens.json"],
+  "files": [
+    "css",
+    "tokens.json"
+  ],
   "exports": {
     ".": "./css/ui.css",
     "./ui.css": "./css/ui.css",
     "./tokens.css": "./css/tokens.css",
     "./css/*": "./css/*",
-    "./tokens.json": "./tokens.json"
+    "./tokens.json": "./tokens.json",
+    "./package.json": "./package.json"
   },
   "scripts": {
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "axe": "node catalogue/axe.mjs",
+    "screens": "node catalogue/screens.mjs"
+  },
+  "style": "./css/ui.css",
+  "sideEffects": [
+    "*.css"
+  ],
+  "devDependencies": {
+    "axe-core": "4.14.0",
+    "playwright": "1.63.0"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

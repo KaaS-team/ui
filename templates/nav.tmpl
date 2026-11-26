@@ -1,7 +1,7 @@
 {{/* nav: the product name and its links. Data: ui.Nav. */}}
-{{define "nav"}}<nav class="ui-nav" aria-label="Main">
+{{define "nav"}}<nav class="ui-nav" aria-label="{{or .Label "Main"}}">
 <p class="ui-nav-brand">{{.Brand}}</p>
-<ul>
+{{if .Items}}<ul>
 {{range .Items}}<li><a href="{{.Href}}"{{if .Current}} aria-current="page"{{end}}>{{.Label}}</a></li>
-{{end}}</ul>
+{{end}}</ul>{{end}}
 </nav>{{end}}
