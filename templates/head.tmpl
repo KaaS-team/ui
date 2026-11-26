@@ -2,7 +2,9 @@
 {{define "head"}}<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>{{.Title}}</title>
 {{with .Description}}<meta name="description" content="{{.}}">{{end}}
 <link rel="stylesheet" href="/_ui/ui.css">
-</head>{{end}}
+{{range .Styles}}<link rel="stylesheet" href="{{.}}">
+{{end}}</head>{{end}}

@@ -1,8 +1,14 @@
-{{/* table: a data table, or its empty state when there are no rows. Data: ui.Table. */}}
-{{define "table"}}{{if .Rows}}<table class="ui-table">
+{{/* table: a data table; its loading, error or empty state when there are no rows to show. Data: ui.Table. */}}
+{{define "table"}}{{if .Error}}<div class="ui-attention" role="alert" data-status="fail">
+<p class="ui-attention-title">{{with .Caption}}{{.}}: {{end}}could not load</p>
+<p class="ui-attention-body">{{.Error}}</p>
+</div>{{else if or .Rows .Loading}}<div class="ui-table-wrap">
+<table class="ui-table"{{if .Loading}} aria-busy="true"{{end}}>
 {{with .Caption}}<caption>{{.}}</caption>{{end}}
 <thead><tr>{{range .Columns}}<th scope="col">{{.}}</th>{{end}}</tr></thead>
 <tbody>
-{{range .Rows}}<tr>{{range .}}<td>{{.}}</td>{{end}}</tr>
-{{end}}</tbody>
-</table>{{else}}{{template "empty" .Empty}}{{end}}{{end}}
+{{if .Loading}}<tr><td colspan="{{len .Columns}}" class="ui-table-loading">Loading…</td></tr>
+{{else}}{{range .Rows}}<tr>{{range .}}<td>{{.}}</td>{{end}}</tr>
+{{end}}{{end}}</tbody>
+</table>
+</div>{{else}}{{template "empty" .Empty}}{{end}}{{end}}
