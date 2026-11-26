@@ -1,13 +1,336 @@
-/* Buttons, fields and selects (partials button, form, approval). The only file that styles a select. Placeholder for U1. */
+/* Controls (partials button, form, approval). The only file that styles a button, field or select.
+
+   Buttons: .ui-button with data-variant primary, secondary (the default), ghost or danger, and data-size="sm".
+   Fields: .ui-field wraps a <label>, a .ui-input (input, select or textarea) and an optional .ui-field-help;
+   aria-invalid="true" on the input and a .ui-field-error line mark a field that needs fixing.
+   Choice: .ui-check (a checkbox or radio with its label), .ui-toggle (a checkbox with role="switch"),
+   and .ui-segmented (radios in a fieldset that read as one control).
+   Every control has hover, focus-visible and disabled states; disabled controls are not in the tab order
+   because the native disabled attribute does that. */
+
+/* buttons */
 .ui-button {
-  font: inherit;
-  padding: var(--ui-space-2) var(--ui-space-4);
+  --_button-bg: var(--ui-surface);
+  --_button-fg: var(--ui-text);
+  --_button-border: var(--ui-border);
+  --_button-hover: var(--ui-hover);
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-2);
+  height: 32px;
+  padding: 0 var(--ui-space-3);
+  border: 1px solid var(--_button-border);
   border-radius: var(--ui-radius-md);
-  border: 1px solid var(--ui-border);
-  background: var(--ui-surface);
-  color: var(--ui-text);
+  background: var(--_button-bg);
+  color: var(--_button-fg);
+  font: inherit;
+  font-size: var(--ui-type-sm);
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: var(--ui-shadow-sm);
+  transition:
+    background var(--ui-dur-quick) var(--ui-ease),
+    border-color var(--ui-dur-quick) var(--ui-ease),
+    color var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-button:hover {
+  background: var(--_button-hover);
+}
+.ui-button:active {
+  transform: translateY(0.5px);
 }
 .ui-button[data-variant='primary'] {
+  --_button-bg: var(--ui-accent);
+  --_button-fg: var(--ui-on-accent);
+  --_button-border: var(--ui-accent);
+  --_button-hover: var(--ui-accent-hover);
+}
+.ui-button[data-variant='secondary'] {
+  --_button-bg: var(--ui-surface);
+}
+.ui-button[data-variant='ghost'] {
+  --_button-bg: transparent;
+  --_button-border: transparent;
+  box-shadow: none;
+}
+.ui-button[data-variant='danger'] {
+  --_button-bg: var(--ui-fail);
+  --_button-fg: var(--ui-on-accent);
+  --_button-border: var(--ui-fail);
+  --_button-hover: var(--ui-fail);
+}
+.ui-button[data-variant='danger']:hover {
+  filter: brightness(0.94);
+}
+.ui-button[data-size='sm'] {
+  height: 26px;
+  padding: 0 var(--ui-space-2);
+  font-size: var(--ui-type-xs);
+}
+.ui-button:disabled,
+.ui-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.45;
+  transform: none;
+  filter: none;
+}
+.ui-button:disabled:hover,
+.ui-button[aria-disabled='true']:hover {
+  background: var(--_button-bg);
+}
+.ui-button[aria-busy='true'] {
+  cursor: progress;
+}
+
+/* forms */
+.ui-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ui-space-4);
+  max-width: 560px;
+}
+.ui-form > .ui-field {
+  align-self: stretch;
+}
+.ui-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.ui-field > label,
+.ui-label {
+  font-size: var(--ui-type-sm);
+  font-weight: 500;
+}
+.ui-field-help {
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+}
+.ui-field-error {
+  color: var(--ui-fail);
+  font-size: var(--ui-type-xs);
+  font-weight: 500;
+}
+
+.ui-input {
+  width: 100%;
+  min-height: 32px;
+  padding: 0 var(--ui-space-3);
+  border: 1px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  font: inherit;
+  font-size: var(--ui-type-sm);
+  transition:
+    border-color var(--ui-dur-quick) var(--ui-ease),
+    box-shadow var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-input::placeholder {
+  color: var(--ui-muted);
+  opacity: 1;
+}
+.ui-input:hover {
+  border-color: var(--ui-muted);
+}
+.ui-input:focus-visible {
+  outline: none;
+  border-color: var(--ui-focus);
+  box-shadow: 0 0 0 1px var(--ui-focus);
+}
+.ui-input[aria-invalid='true'] {
+  border-color: var(--ui-fail);
+}
+.ui-input[aria-invalid='true']:focus-visible {
+  box-shadow: 0 0 0 1px var(--ui-fail);
+}
+.ui-input:disabled,
+.ui-input[readonly] {
+  background: var(--ui-raised);
+  color: var(--ui-muted);
+}
+.ui-input:disabled {
+  cursor: not-allowed;
+}
+textarea.ui-input {
+  min-height: 80px;
+  padding: var(--ui-space-2) var(--ui-space-3);
+  line-height: var(--ui-leading);
+  resize: vertical;
+}
+
+/* select: native list, our chevron drawn from two gradients in the text colour */
+select.ui-input {
+  padding-right: var(--ui-space-6);
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ui-muted) 50%),
+    linear-gradient(135deg, var(--ui-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 15px) 50%,
+    calc(100% - 11px) 50%;
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+select.ui-input:disabled {
+  cursor: not-allowed;
+}
+
+/* checkbox and radio: native controls in the accent colour, with their label */
+.ui-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 24px;
+  font-size: var(--ui-type-sm);
+  cursor: pointer;
+}
+.ui-check input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ui-accent);
+  cursor: inherit;
+}
+.ui-check:has(input:disabled) {
+  color: var(--ui-muted);
+  cursor: not-allowed;
+}
+
+/* toggle: <label class="ui-toggle"><input type="checkbox" role="switch"> Label</label> */
+.ui-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 24px;
+  font-size: var(--ui-type-sm);
+  cursor: pointer;
+}
+.ui-toggle input {
+  position: relative;
+  flex: none;
+  width: 30px;
+  height: 18px;
+  border: 1px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius-pill);
+  background: var(--ui-raised);
+  appearance: none;
+  cursor: inherit;
+  transition:
+    background var(--ui-dur-quick) var(--ui-ease),
+    border-color var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-toggle input::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ui-muted);
+  transition:
+    transform var(--ui-dur-quick) var(--ui-ease),
+    background var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-toggle input:checked {
+  border-color: var(--ui-accent);
   background: var(--ui-accent);
-  color: var(--ui-on-accent);
+}
+.ui-toggle input:checked::before {
+  background: var(--ui-on-accent);
+  transform: translateX(12px);
+}
+.ui-toggle:has(input:disabled) {
+  color: var(--ui-muted);
+  cursor: not-allowed;
+}
+.ui-toggle input:disabled {
+  opacity: 0.45;
+}
+
+/* segmented control: <fieldset class="ui-segmented"><legend class="ui-visually-hidden">…</legend>
+   <label><input type="radio" name="range"><span>Day</span></label>…</fieldset> */
+.ui-segmented {
+  display: inline-flex;
+  gap: 2px;
+  min-width: 0;
+  padding: 2px;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-raised);
+}
+.ui-segmented label {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+}
+.ui-segmented input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+.ui-segmented span {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 var(--ui-space-3);
+  border-radius: var(--ui-radius-sm);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    background var(--ui-dur-quick) var(--ui-ease),
+    color var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-segmented label:hover span {
+  color: var(--ui-text);
+}
+.ui-segmented input:checked + span {
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  box-shadow: var(--ui-shadow-sm), var(--ui-ring);
+}
+.ui-segmented input:focus-visible + span {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 1px;
+}
+.ui-segmented label:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* approval: a decision with its two buttons */
+.ui-approval {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-4);
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+}
+.ui-approval h3 {
+  font-size: var(--ui-type-md);
+}
+.ui-approval p {
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+}
+.ui-approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2);
+  margin-top: var(--ui-space-2);
 }

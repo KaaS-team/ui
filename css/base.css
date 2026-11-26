@@ -1,16 +1,240 @@
-/* Reset and body type. Placeholder for U1. */
-* {
+/* Base: reset, type, links, the focus ring, and the layout primitives every page and partial shares.
+   Nothing here names a component; the layer files build on these. */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
+  min-height: 100vh;
   font-family: var(--ui-font-sans);
   font-size: var(--ui-type-md);
   line-height: var(--ui-leading);
   background: var(--ui-bg);
   color: var(--ui-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+fieldset {
+  min-width: 0;
+  border: 0;
+}
+legend {
+  padding: 0;
+}
+
+/* type: one scale, weight and tracking carry the hierarchy */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--ui-type-2xl);
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-size: var(--ui-type-xl);
+}
+h3 {
+  font-size: var(--ui-type-lg);
+}
+h4 {
+  font-size: var(--ui-type-md);
+}
+p {
+  text-wrap: pretty;
+}
+small {
+  font-size: var(--ui-type-sm);
+}
+strong,
+b {
+  font-weight: 600;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-type-sm);
+}
+:not(pre) > code {
+  padding: 1px var(--ui-space-1);
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-raised);
+}
+kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 0 var(--ui-space-1);
+  border: 1px solid var(--ui-border);
+  border-bottom-width: 2px;
+  border-radius: var(--ui-radius-sm);
+  background: var(--ui-surface);
+  font-size: var(--ui-type-xs);
+  line-height: 18px;
+  text-align: center;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--ui-border);
+}
+
+/* links: underlined so they are not told apart by colour alone */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--ui-border-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--ui-dur-quick) var(--ui-ease);
+}
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* the focus ring: one look for every focusable thing, keyboard only */
+:focus {
+  outline: none;
 }
 :focus-visible {
   outline: 2px solid var(--ui-focus);
   outline-offset: 2px;
+}
+
+::selection {
+  background: var(--ui-info-bg);
+  color: var(--ui-text);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* screen-reader text: in the accessibility tree, off the screen */
+.ui-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ui-muted {
+  color: var(--ui-muted);
+}
+.ui-mono {
+  font-family: var(--ui-font-mono);
+}
+.ui-num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* layout primitives: a vertical stack, a wrapping row, and a responsive grid of cards */
+.ui-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-4);
+}
+.ui-stack[data-gap='sm'] {
+  gap: var(--ui-space-2);
+}
+.ui-stack[data-gap='lg'] {
+  gap: var(--ui-space-6);
+}
+.ui-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-2);
+}
+.ui-row[data-justify='between'] {
+  justify-content: space-between;
+}
+.ui-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+  gap: var(--ui-space-4);
+}
+.ui-grid[data-cols='2'] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+}
+
+/* a panel: the surface a table, form, log or chart sits on */
+.ui-card {
+  min-width: 0;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+  box-shadow: var(--ui-shadow-sm);
+}
+.ui-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-3) var(--ui-space-4);
+  border-bottom: 1px solid var(--ui-border);
+}
+.ui-card-header h2,
+.ui-card-header h3 {
+  font-size: var(--ui-type-md);
+}
+.ui-card-body {
+  padding: var(--ui-space-4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

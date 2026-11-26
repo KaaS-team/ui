@@ -1,9 +1,365 @@
-/* App shell: nav rail and main column (partials shell, nav, stat, attention, empty). Placeholder for U1. */
+/* App shell: the frame every product page sits in, plus the page-level partials (shell, nav, stat, attention, empty).
+
+   <div class="ui-shell">
+     <nav class="ui-nav">…</nav>          side nav, full height
+     <header class="ui-topbar">…</header>  optional: breadcrumbs, search, account
+     <main class="ui-main">…</main>
+   </div>
+
+   At 720px and below the side nav becomes a top strip whose links scroll sideways, so a 390px phone keeps
+   every link one tap away without a menu button or script. */
+
 .ui-shell {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 232px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'nav top'
+    'nav main';
   min-height: 100vh;
 }
+
+.ui-shell > .ui-nav {
+  grid-area: nav;
+}
+.ui-shell > .ui-topbar {
+  grid-area: top;
+}
+.ui-shell > .ui-main {
+  grid-area: main;
+}
+
+/* side nav */
+.ui-nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1);
+  height: 100vh;
+  padding: var(--ui-space-3);
+  overflow-y: auto;
+  background: var(--ui-bg);
+  border-right: 1px solid var(--ui-border);
+}
+.ui-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 36px;
+  padding: 0 var(--ui-space-2);
+  margin-bottom: var(--ui-space-2);
+  font-size: var(--ui-type-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.ui-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ui-nav-heading {
+  padding: var(--ui-space-3) var(--ui-space-2) var(--ui-space-1);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-weight: 500;
+}
+.ui-nav a {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-height: 32px;
+  padding: 0 var(--ui-space-2);
+  border-radius: var(--ui-radius-md);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--ui-dur-quick) var(--ui-ease),
+    color var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-nav a:hover {
+  background: var(--ui-hover);
+  color: var(--ui-text);
+}
+.ui-nav a[aria-current='page'] {
+  background: var(--ui-raised);
+  color: var(--ui-text);
+  box-shadow: var(--ui-ring);
+}
+.ui-nav-count {
+  margin-left: auto;
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-variant-numeric: tabular-nums;
+}
+.ui-nav-foot {
+  margin-top: auto;
+  padding-top: var(--ui-space-3);
+  border-top: 1px solid var(--ui-border);
+}
+
+/* top bar */
+.ui-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-3);
+  min-height: 52px;
+  padding: 0 var(--ui-space-5);
+  background: var(--ui-bg);
+  border-bottom: 1px solid var(--ui-border);
+}
+.ui-topbar-end {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  margin-left: auto;
+}
+
+.ui-breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-2);
+  font-size: var(--ui-type-sm);
+}
+.ui-breadcrumbs li {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  color: var(--ui-muted);
+}
+.ui-breadcrumbs li + li::before {
+  content: '/';
+  color: var(--ui-border-strong);
+}
+.ui-breadcrumbs a {
+  color: var(--ui-muted);
+  text-decoration: none;
+}
+.ui-breadcrumbs a:hover {
+  color: var(--ui-text);
+}
+.ui-breadcrumbs [aria-current='page'] {
+  color: var(--ui-text);
+  font-weight: 500;
+}
+
+/* content */
 .ui-main {
-  padding: var(--ui-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-5);
+  width: 100%;
+  max-width: 1200px;
+  min-width: 0;
+  padding: var(--ui-space-5) var(--ui-space-6) var(--ui-space-7);
+}
+.ui-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ui-space-3);
+}
+.ui-page-header h1 {
+  font-size: var(--ui-type-xl);
+}
+.ui-page-header p {
+  margin-top: var(--ui-space-1);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+}
+.ui-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-3);
+}
+.ui-section > h2 {
+  font-size: var(--ui-type-md);
+}
+
+/* stat: a number, its label and an optional change; the status colours the change */
+.ui-stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-1);
+  min-width: 0;
+  padding: var(--ui-space-4);
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+}
+.ui-stat-label {
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+}
+.ui-stat-value {
+  font-size: var(--ui-type-2xl);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.ui-stat-delta {
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+  font-variant-numeric: tabular-nums;
+}
+.ui-stat[data-status='pass'] .ui-stat-delta {
+  color: var(--ui-pass);
+}
+.ui-stat[data-status='wait'] .ui-stat-delta {
+  color: var(--ui-wait);
+}
+.ui-stat[data-status='fail'] .ui-stat-delta {
+  color: var(--ui-fail);
+}
+.ui-stat[data-status='info'] .ui-stat-delta {
+  color: var(--ui-info);
+}
+
+/* attention: a banner that asks a person to look; a 3px edge plus the title text carry the status */
+.ui-attention {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--ui-space-1) var(--ui-space-4);
+  padding: var(--ui-space-3) var(--ui-space-4);
+  background: var(--ui-raised);
+  border: 1px solid var(--ui-border);
+  border-left: 3px solid var(--ui-border-strong);
+  border-radius: var(--ui-radius-md);
+  font-size: var(--ui-type-sm);
+}
+.ui-attention > :not(.ui-button) {
+  grid-column: 1;
+}
+.ui-attention > .ui-button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.ui-attention-title {
+  font-weight: 600;
+}
+.ui-attention[data-status='pass'] {
+  background: var(--ui-pass-bg);
+  border-color: var(--ui-pass-bg);
+  border-left-color: var(--ui-pass);
+}
+.ui-attention[data-status='wait'] {
+  background: var(--ui-wait-bg);
+  border-color: var(--ui-wait-bg);
+  border-left-color: var(--ui-wait);
+}
+.ui-attention[data-status='fail'] {
+  background: var(--ui-fail-bg);
+  border-color: var(--ui-fail-bg);
+  border-left-color: var(--ui-fail);
+}
+.ui-attention[data-status='info'] {
+  background: var(--ui-info-bg);
+  border-color: var(--ui-info-bg);
+  border-left-color: var(--ui-info);
+}
+.ui-attention[data-status='pass'] .ui-attention-title {
+  color: var(--ui-pass);
+}
+.ui-attention[data-status='wait'] .ui-attention-title {
+  color: var(--ui-wait);
+}
+.ui-attention[data-status='fail'] .ui-attention-title {
+  color: var(--ui-fail);
+}
+.ui-attention[data-status='info'] .ui-attention-title {
+  color: var(--ui-info);
+}
+
+/* empty: what a list says before it has anything, and the one action that fills it */
+.ui-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ui-space-2);
+  padding: var(--ui-space-7) var(--ui-space-5);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-sm);
+  text-align: center;
+  border: 1px dashed var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+}
+.ui-empty-title {
+  color: var(--ui-text);
+  font-size: var(--ui-type-md);
+  font-weight: 600;
+}
+.ui-empty > p {
+  max-width: 44ch;
+}
+.ui-empty > .ui-button {
+  margin-top: var(--ui-space-2);
+}
+.ui-card > .ui-empty {
+  border: 0;
+}
+
+/* collapse: the side nav becomes a top strip, links scroll sideways */
+@media (max-width: 720px) {
+  .ui-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      'nav'
+      'top'
+      'main';
+  }
+  .ui-nav {
+    z-index: 11;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--ui-space-2);
+    height: auto;
+    padding: var(--ui-space-2) var(--ui-space-4);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    border-right: 0;
+    border-bottom: 1px solid var(--ui-border);
+  }
+  .ui-nav-brand {
+    flex: none;
+    margin: 0;
+    padding: 0;
+  }
+  .ui-nav ul {
+    flex: none;
+    flex-direction: row;
+  }
+  .ui-nav-heading,
+  .ui-nav-foot,
+  .ui-nav-count {
+    display: none;
+  }
+  .ui-topbar {
+    position: static;
+    min-height: 44px;
+    padding: 0 var(--ui-space-4);
+  }
+  .ui-main {
+    gap: var(--ui-space-4);
+    padding: var(--ui-space-4) var(--ui-space-4) var(--ui-space-6);
+  }
+  .ui-attention {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ui-attention > .ui-button {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: start;
+  }
 }

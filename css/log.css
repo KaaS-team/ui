@@ -1,9 +1,103 @@
-/* Run logs (partial log). Placeholder for U1. */
+/* Run logs (partial log). Monospace, one line per .ui-log-line, a level per line, and a tail that stays
+   readable while it streams.
+
+   <section class="ui-log-wrap">
+     <h3>Build</h3>
+     <pre class="ui-log" aria-busy="true"><span class="ui-log-line" data-status="fail"><time>10:02</time> FAIL ui</span>
+     </pre>
+   </section>
+
+   Levels: data-status fail (error), wait (warning), pass (success), info (notice); none is plain output.
+   aria-busy="true" on the log draws a caret after the last line while it streams.
+   The log is a column of flex items, so the newlines the template writes between lines take no space. */
+
+.ui-log-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+  background: var(--ui-raised);
+}
+.ui-log-wrap > h3 {
+  padding: var(--ui-space-2) var(--ui-space-3);
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  font-size: var(--ui-type-sm);
+}
+
 .ui-log {
+  display: flex;
+  flex-direction: column;
+  max-height: 480px;
+  padding: var(--ui-space-2) 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  counter-reset: ui-log-line;
+  background: var(--ui-raised);
+  color: var(--ui-text);
   font-family: var(--ui-font-mono);
   font-size: var(--ui-type-xs);
-  background: var(--ui-raised);
-  padding: var(--ui-space-3);
-  border-radius: var(--ui-radius-md);
-  overflow-x: auto;
+  line-height: 20px;
+  tab-size: 4;
+}
+.ui-log-wrap > .ui-log {
+  border-radius: 0;
+}
+
+.ui-log-line {
+  display: block;
+  min-width: max-content;
+  padding: 0 var(--ui-space-3) 0 0;
+  white-space: pre;
+  counter-increment: ui-log-line;
+}
+.ui-log-line::before {
+  content: counter(ui-log-line);
+  display: inline-block;
+  width: 5ch;
+  margin-right: var(--ui-space-3);
+  padding-right: var(--ui-space-2);
+  color: var(--ui-muted);
+  text-align: right;
+  user-select: none;
+}
+.ui-log-line time {
+  margin-right: var(--ui-space-1);
+  color: var(--ui-muted);
+}
+.ui-log-line:hover {
+  background: var(--ui-hover);
+}
+
+.ui-log-line[data-status='fail'] {
+  background: var(--ui-fail-bg);
+  color: var(--ui-fail);
+}
+.ui-log-line[data-status='wait'] {
+  background: var(--ui-wait-bg);
+  color: var(--ui-wait);
+}
+.ui-log-line[data-status='pass'] {
+  color: var(--ui-pass);
+}
+.ui-log-line[data-status='info'] {
+  color: var(--ui-info);
+}
+
+/* streaming: a block caret after the last line */
+.ui-log[aria-busy='true']::after {
+  content: '';
+  display: block;
+  width: 7px;
+  height: 14px;
+  margin: 3px 0 3px calc(5ch + var(--ui-space-3));
+  background: var(--ui-muted);
+  animation: ui-log-caret 1s steps(1) infinite;
+}
+@keyframes ui-log-caret {
+  50% {
+    opacity: 0;
+  }
 }

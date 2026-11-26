@@ -1,25 +1,41 @@
-/* Status chips (partial chip). Placeholder for U1. */
+/* Status chips (partial chip). The label says the status; the tint repeats it. No status means neutral.
+   data-status: pass, wait, fail, info, or none. */
 .ui-chip {
   display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-1);
+  height: 20px;
+  max-width: 100%;
   padding: 0 var(--ui-space-2);
+  border: 1px solid var(--ui-border);
   border-radius: var(--ui-radius-pill);
-  font-size: var(--ui-type-xs);
   background: var(--ui-raised);
   color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 .ui-chip[data-status='pass'] {
+  border-color: var(--ui-pass-bg);
   background: var(--ui-pass-bg);
   color: var(--ui-pass);
 }
 .ui-chip[data-status='wait'] {
+  border-color: var(--ui-wait-bg);
   background: var(--ui-wait-bg);
   color: var(--ui-wait);
 }
 .ui-chip[data-status='fail'] {
+  border-color: var(--ui-fail-bg);
   background: var(--ui-fail-bg);
   color: var(--ui-fail);
 }
 .ui-chip[data-status='info'] {
+  border-color: var(--ui-info-bg);
   background: var(--ui-info-bg);
   color: var(--ui-info);
 }

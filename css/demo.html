@@ -1,0 +1,362 @@
+<!doctype html>
+<!-- Every layer of the KaaS design system on one page, for screenshots and as reference markup.
+     Open it from css/ (it links ui.css next to it) or at /_ui/demo.html from a Go server.
+     Add data-theme="light" or "dark" to <html> to force a theme; otherwise it follows the OS. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KaaS UI layers</title>
+<meta name="description" content="Every CSS layer of the KaaS design system: shell, table, controls, chips, log and timeline.">
+<link rel="stylesheet" href="ui.css">
+</head>
+<body>
+<div class="ui-shell">
+  <nav class="ui-nav" aria-label="Main">
+    <p class="ui-nav-brand">Factory</p>
+    <ul>
+      <li><a href="#runs" aria-current="page">Runs <span class="ui-nav-count">128</span></a></li>
+      <li><a href="#plans">Plans <span class="ui-nav-count">2</span></a></li>
+      <li><a href="#controls">Controls</a></li>
+      <li><a href="#log">Logs</a></li>
+    </ul>
+    <p class="ui-nav-heading">Workspace</p>
+    <ul>
+      <li><a href="#members">Members</a></li>
+      <li><a href="#settings">Settings</a></li>
+    </ul>
+    <div class="ui-nav-foot">
+      <a href="#account">Account</a>
+    </div>
+  </nav>
+
+  <header class="ui-topbar">
+    <nav class="ui-breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="#runs">Runs</a></li>
+        <li><span aria-current="page">Run 4127</span></li>
+      </ol>
+    </nav>
+    <div class="ui-topbar-end">
+      <button class="ui-button" type="button" data-variant="ghost" data-size="sm">Docs</button>
+      <button class="ui-button" type="button" data-size="sm">Share</button>
+    </div>
+  </header>
+
+  <main class="ui-main" id="runs">
+    <div class="ui-page-header">
+      <div>
+        <h1>Run 4127</h1>
+        <p>KaaS-team/factory, branch main, started 09:00 by the scheduler</p>
+      </div>
+      <div class="ui-row">
+        <button class="ui-button" type="button">Re-run</button>
+        <button class="ui-button" type="button" data-variant="primary">Approve plan</button>
+      </div>
+    </div>
+
+    <div class="ui-attention" role="status" data-status="wait">
+      <p class="ui-attention-title">Two plans wait for you</p>
+      <p>Approve or reject them to let the run continue.</p>
+      <a class="ui-button" href="#plans" data-size="sm">Review</a>
+    </div>
+
+    <section class="ui-section" aria-labelledby="h-stats">
+      <h2 id="h-stats">Today</h2>
+      <div class="ui-grid">
+        <div class="ui-stat" data-status="pass">
+          <p class="ui-stat-label">Runs passed</p>
+          <p class="ui-stat-value">112</p>
+          <p class="ui-stat-delta">+8 on yesterday</p>
+        </div>
+        <div class="ui-stat" data-status="fail">
+          <p class="ui-stat-label">Runs failed</p>
+          <p class="ui-stat-value">9</p>
+          <p class="ui-stat-delta">+3 on yesterday</p>
+        </div>
+        <div class="ui-stat" data-status="wait">
+          <p class="ui-stat-label">Waiting for review</p>
+          <p class="ui-stat-value">7</p>
+          <p class="ui-stat-delta">Oldest 2h 14m</p>
+        </div>
+        <div class="ui-stat">
+          <p class="ui-stat-label">Median duration</p>
+          <p class="ui-stat-value">4m 12s</p>
+          <p class="ui-stat-delta">Same as last week</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="ui-section" aria-labelledby="h-table">
+      <div class="ui-row" data-justify="between">
+        <h2 id="h-table">Recent runs</h2>
+        <fieldset class="ui-segmented">
+          <legend class="ui-visually-hidden">Range</legend>
+          <label><input type="radio" name="range" value="day" checked><span>Day</span></label>
+          <label><input type="radio" name="range" value="week"><span>Week</span></label>
+          <label><input type="radio" name="range" value="month"><span>Month</span></label>
+          <label><input type="radio" name="range" value="year" disabled><span>Year</span></label>
+        </fieldset>
+      </div>
+      <div class="ui-table-wrap" data-height="md" role="region" aria-label="Recent runs, scrollable" tabindex="0">
+        <table class="ui-table">
+          <thead>
+            <tr>
+              <th scope="col">Run</th>
+              <th scope="col">Issue</th>
+              <th scope="col">State</th>
+              <th scope="col" class="ui-num">Tests</th>
+              <th scope="col" class="ui-num">Duration</th>
+              <th scope="col">Started</th>
+              <th scope="col" class="ui-actions"><span class="ui-visually-hidden">Actions</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-status="fail">
+              <td><a href="#log">4127</a></td>
+              <td>Retry flaky deploy step</td>
+              <td><span class="ui-chip" data-status="fail">Failed</span></td>
+              <td class="ui-num">212 / 214</td>
+              <td class="ui-num">6m 41s</td>
+              <td class="ui-muted">09:00</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm">Retry</button></td>
+            </tr>
+            <tr data-status="wait" aria-selected="true">
+              <td><a href="#log">4126</a></td>
+              <td>Add the chip partial</td>
+              <td><span class="ui-chip" data-status="wait">Waiting</span></td>
+              <td class="ui-num">88 / 214</td>
+              <td class="ui-num">2m 03s</td>
+              <td class="ui-muted">08:52</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm">Open</button></td>
+            </tr>
+            <tr data-status="pass">
+              <td><a href="#log">4125</a></td>
+              <td>Bump Go to 1.26</td>
+              <td><span class="ui-chip" data-status="pass">Passed</span></td>
+              <td class="ui-num">214 / 214</td>
+              <td class="ui-num">4m 12s</td>
+              <td class="ui-muted">08:31</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm">Open</button></td>
+            </tr>
+            <tr data-status="info">
+              <td><a href="#log">4124</a></td>
+              <td>Triage new issues</td>
+              <td><span class="ui-chip" data-status="info">Queued</span></td>
+              <td class="ui-num">0 / 214</td>
+              <td class="ui-num">0s</td>
+              <td class="ui-muted">08:30</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm">Open</button></td>
+            </tr>
+            <tr aria-disabled="true">
+              <td><a href="#log">4123</a></td>
+              <td>Rename the stat partial</td>
+              <td><span class="ui-chip">Cancelled</span></td>
+              <td class="ui-num">14 / 214</td>
+              <td class="ui-num">31s</td>
+              <td>08:12</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm" disabled>Open</button></td>
+            </tr>
+            <tr>
+              <td><a href="#log">4122</a></td>
+              <td>Move actions off Node 20</td>
+              <td><span class="ui-chip" data-status="pass">Passed</span></td>
+              <td class="ui-num">1,204 / 1,204</td>
+              <td class="ui-num">12m 08s</td>
+              <td class="ui-muted">07:44</td>
+              <td class="ui-actions"><button class="ui-button" type="button" data-size="sm">Open</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="ui-grid" data-cols="2">
+      <section class="ui-section" aria-labelledby="h-timeline" id="plans">
+        <h2 id="h-timeline">Timeline</h2>
+        <div class="ui-card">
+          <div class="ui-card-body">
+            <ol class="ui-timeline">
+              <li data-status="info"><time>09:00</time><p class="ui-timeline-title">Triaged</p><span class="ui-timeline-duration">4s</span><p>Labelled as a bug in deploy.</p></li>
+              <li data-status="pass"><time>09:01</time><p class="ui-timeline-title">Plan approved</p><span class="ui-timeline-duration">1m 12s</span><p>Approved by the on-call reviewer.</p></li>
+              <li data-status="fail"><time>09:03</time><p class="ui-timeline-title">Gate failed</p><span class="ui-timeline-duration">3m 40s</span><p>2 tests failed in ui.</p></li>
+              <li data-status="wait"><time>09:07</time><p class="ui-timeline-title">Retrying</p><span class="ui-timeline-duration">1m 45s</span><p>Attempt 2 of 3.</p></li>
+              <li><time>Next</time><p class="ui-timeline-title">Open pull request</p><p>Runs after the gate passes.</p></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="ui-section" aria-labelledby="h-approval">
+        <h2 id="h-approval">Approval</h2>
+        <section class="ui-approval">
+          <h3>Plan for #12</h3>
+          <p>Adds the chip partial and its sample. Touches templates/ and data.go.</p>
+          <div class="ui-approval-actions">
+            <button class="ui-button" type="button" data-variant="primary">Approve</button>
+            <button class="ui-button" type="button" data-variant="danger">Reject</button>
+          </div>
+        </section>
+        <div class="ui-attention" role="status" data-status="fail">
+          <p class="ui-attention-title">Deploy key expires in 2 days</p>
+          <p>Rotate it in settings to keep deploys running.</p>
+        </div>
+        <div class="ui-attention" role="status" data-status="pass">
+          <p class="ui-attention-title">All checks passed</p>
+        </div>
+        <div class="ui-attention" role="status" data-status="info">
+          <p class="ui-attention-title">A new runner image is available</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="ui-section" aria-labelledby="h-log" id="log">
+      <h2 id="h-log">Log</h2>
+      <section class="ui-log-wrap">
+        <h3>Build</h3>
+        <pre class="ui-log" aria-busy="true" tabindex="0"><span class="ui-log-line"><time>09:03:01</time> $ just check</span>
+<span class="ui-log-line"><time>09:03:01</time> gofmt -l .</span>
+<span class="ui-log-line"><time>09:03:02</time> go vet ./...</span>
+<span class="ui-log-line" data-status="info"><time>09:03:04</time> go test ./... (14 packages)</span>
+<span class="ui-log-line" data-status="pass"><time>09:03:09</time> ok   github.com/KaaS-team/ui  0.412s</span>
+<span class="ui-log-line" data-status="wait"><time>09:03:10</time> warn: test cache disabled, running every test</span>
+<span class="ui-log-line"><time>09:03:12</time> --- RUN   TestEveryPartialRendersValidHTML</span>
+<span class="ui-log-line" data-status="fail"><time>09:03:12</time> --- FAIL: TestEveryPartialRendersValidHTML (0.01s)</span>
+<span class="ui-log-line" data-status="fail"><time>09:03:12</time>     partials_test.go:58: table: unexpected &lt;/td&gt; with open table&gt;tbody</span>
+<span class="ui-log-line"><time>09:03:13</time> Retrying in 30s</span>
+</pre>
+      </section>
+    </section>
+
+    <section class="ui-section" aria-labelledby="h-controls" id="controls">
+      <h2 id="h-controls">Controls</h2>
+      <div class="ui-card">
+        <div class="ui-card-header">
+          <h3>Buttons</h3>
+        </div>
+        <div class="ui-card-body ui-stack">
+          <div class="ui-row">
+            <button class="ui-button" type="button" data-variant="primary">Primary</button>
+            <button class="ui-button" type="button" data-variant="secondary">Secondary</button>
+            <button class="ui-button" type="button" data-variant="ghost">Ghost</button>
+            <button class="ui-button" type="button" data-variant="danger">Danger</button>
+            <a class="ui-button" href="#controls">Link</a>
+          </div>
+          <div class="ui-row">
+            <button class="ui-button" type="button" data-variant="primary" disabled>Primary</button>
+            <button class="ui-button" type="button" disabled>Secondary</button>
+            <button class="ui-button" type="button" data-variant="ghost" disabled>Ghost</button>
+            <button class="ui-button" type="button" data-variant="danger" disabled>Danger</button>
+          </div>
+          <div class="ui-row">
+            <button class="ui-button" type="button" data-variant="primary" data-size="sm">Small primary</button>
+            <button class="ui-button" type="button" data-size="sm">Small</button>
+            <button class="ui-button" type="button" data-variant="ghost" data-size="sm">Small ghost</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-grid" data-cols="2">
+        <div class="ui-card">
+          <div class="ui-card-header">
+            <h3>Form</h3>
+          </div>
+          <div class="ui-card-body">
+            <form class="ui-form" action="#controls" method="post">
+              <div class="ui-field">
+                <label for="f-repo">Repository</label>
+                <input class="ui-input" id="f-repo" name="repo" type="text" placeholder="owner/name" required>
+              </div>
+              <div class="ui-field">
+                <label for="f-branch">Branch</label>
+                <input class="ui-input" id="f-branch" name="branch" type="text" value="main/" aria-invalid="true" aria-describedby="f-branch-error">
+                <p class="ui-field-error" id="f-branch-error">A branch name cannot end with a slash.</p>
+              </div>
+              <div class="ui-field">
+                <label for="f-tier">Tier</label>
+                <select class="ui-input" id="f-tier" name="tier">
+                  <option>Starter</option>
+                  <option selected>Team</option>
+                  <option>Enterprise</option>
+                </select>
+              </div>
+              <div class="ui-field">
+                <label for="f-region">Region</label>
+                <input class="ui-input" id="f-region" name="region" type="text" value="eu-west" disabled>
+                <p class="ui-field-help">Set when the workspace was created.</p>
+              </div>
+              <div class="ui-field">
+                <label for="f-notes">Notes</label>
+                <textarea class="ui-input" id="f-notes" name="notes" placeholder="Shown on the plan"></textarea>
+                <p class="ui-field-help">Plain text, up to 500 characters.</p>
+              </div>
+              <button class="ui-button" type="submit" data-variant="primary">Save</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="ui-card">
+          <div class="ui-card-header">
+            <h3>Choices</h3>
+          </div>
+          <div class="ui-card-body ui-stack">
+            <fieldset class="ui-stack" data-gap="sm">
+              <legend class="ui-label">Notify me about</legend>
+              <label class="ui-check"><input type="checkbox" name="notify" value="fail" checked> Failed runs</label>
+              <label class="ui-check"><input type="checkbox" name="notify" value="wait"> Plans waiting for review</label>
+              <label class="ui-check"><input type="checkbox" name="notify" value="all" disabled> Every run</label>
+            </fieldset>
+            <fieldset class="ui-stack" data-gap="sm">
+              <legend class="ui-label">Merge method</legend>
+              <label class="ui-check"><input type="radio" name="merge" value="squash" checked> Squash</label>
+              <label class="ui-check"><input type="radio" name="merge" value="rebase"> Rebase</label>
+            </fieldset>
+            <div class="ui-stack" data-gap="sm">
+              <label class="ui-toggle"><input type="checkbox" role="switch" checked> Auto-merge when green</label>
+              <label class="ui-toggle"><input type="checkbox" role="switch"> Run on draft pull requests</label>
+              <label class="ui-toggle"><input type="checkbox" role="switch" disabled> Deploy previews</label>
+            </div>
+            <fieldset class="ui-segmented">
+              <legend class="ui-visually-hidden">Density</legend>
+              <label><input type="radio" name="density" value="compact" checked><span>Compact</span></label>
+              <label><input type="radio" name="density" value="comfortable"><span>Comfortable</span></label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ui-section" aria-labelledby="h-chips">
+      <h2 id="h-chips">Chips</h2>
+      <div class="ui-row">
+        <span class="ui-chip" data-status="pass">Passed</span>
+        <span class="ui-chip" data-status="wait">Waiting</span>
+        <span class="ui-chip" data-status="fail">Failed</span>
+        <span class="ui-chip" data-status="info">Queued</span>
+        <span class="ui-chip">Draft</span>
+      </div>
+    </section>
+
+    <section class="ui-section" aria-labelledby="h-empty" id="members">
+      <h2 id="h-empty">Empty state</h2>
+      <div class="ui-empty">
+        <p class="ui-empty-title">No runs yet</p>
+        <p>Label an issue with <code>factory</code> to start one. Press <kbd>G</kbd> then <kbd>I</kbd> to open issues.</p>
+        <a class="ui-button" href="#runs" data-variant="primary">Open issues</a>
+      </div>
+    </section>
+
+    <section class="ui-section" aria-labelledby="h-type" id="settings">
+      <h2 id="h-type">Type</h2>
+      <div class="ui-card">
+        <div class="ui-card-body ui-stack" data-gap="sm">
+          <p>Body text at 14px. <a href="#settings">A link is underlined</a>, <strong>strong text is 600</strong>, and <code>inline code</code> sits on the raised surface.</p>
+          <p class="ui-muted">Muted text for secondary detail, at AA contrast on every surface.</p>
+          <p><small>Small text for timestamps and help.</small></p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

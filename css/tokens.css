@@ -1,30 +1,37 @@
 /* The one place a colour is written. Every other file in this repo reads these tokens through var(),
    and test/colours.test.mjs fails on a raw hex, rgb or hsl colour anywhere else.
    The names are the contract: tokens.json lists every one and test/tokens.test.mjs keeps the two equal.
-   Values are first drafts from kaas.team base.css (ink on paper); U1 tunes them, the names stay. */
+   test/contrast.test.mjs computes WCAG contrast for every text and status pair below, in both themes.
+
+   Theme: light by default, dark under prefers-color-scheme, and data-theme="light" or "dark" on <html>
+   forces one. The dark values are written twice (media query and data-theme) and the token test keeps
+   the two copies equal. */
 :root {
   color-scheme: light dark;
 
   /* colour: page, panels, lines, type, the one accent */
   --ui-bg: #f7f7f7;
   --ui-surface: #ffffff;
-  --ui-raised: #f5f5f5;
-  --ui-border: #ebebeb;
+  --ui-raised: #f2f2f2;
+  --ui-hover: #ebebeb;
+  --ui-border: #e5e5e5;
+  --ui-border-strong: #888888;
   --ui-text: #171717;
-  --ui-muted: #666666;
+  --ui-muted: #5c5c5c;
   --ui-accent: #171717;
+  --ui-accent-hover: #3d3d3d;
   --ui-on-accent: #ffffff;
   --ui-focus: #2563eb;
 
   /* status: these four carry meaning and nothing else does */
-  --ui-pass: #1f7a45;
-  --ui-pass-bg: #dff9e9;
-  --ui-wait: #7a5d00;
-  --ui-wait-bg: #fdf6d3;
-  --ui-fail: #b4233a;
-  --ui-fail-bg: #fcf0f0;
-  --ui-info: #2f57c9;
-  --ui-info-bg: #eaf3fe;
+  --ui-pass: #16703a;
+  --ui-pass-bg: #e3f6e8;
+  --ui-wait: #875400;
+  --ui-wait-bg: #fcf1d4;
+  --ui-fail: #c11f32;
+  --ui-fail-bg: #fdecee;
+  --ui-info: #1f5bd1;
+  --ui-info-bg: #e8effd;
 
   /* spacing scale, 4px base */
   --ui-space-1: 4px;
@@ -38,18 +45,18 @@
 
   /* radii */
   --ui-radius-sm: 4px;
-  --ui-radius-md: 8px;
-  --ui-radius-lg: 12px;
+  --ui-radius-md: 6px;
+  --ui-radius-lg: 10px;
   --ui-radius-pill: 999px;
 
   /* type scale: the only font sizes layer CSS may use */
   --ui-type-xs: 12px;
   --ui-type-sm: 13px;
-  --ui-type-md: 15px;
-  --ui-type-lg: 18px;
-  --ui-type-xl: 24px;
-  --ui-type-2xl: 32px;
-  --ui-leading: 1.45;
+  --ui-type-md: 14px;
+  --ui-type-lg: 16px;
+  --ui-type-xl: 20px;
+  --ui-type-2xl: 28px;
+  --ui-leading: 1.5;
 
   /* font stacks */
   --ui-font-sans: Geist, Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -62,33 +69,70 @@
 
   /* motion: one curve at two durations */
   --ui-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --ui-dur-quick: 0.22s;
-  --ui-dur-gentle: 0.42s;
+  --ui-dur-quick: 0.16s;
+  --ui-dur-gentle: 0.32s;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --ui-bg: #0a0a0a;
     --ui-surface: #111111;
-    --ui-raised: #181818;
-    --ui-border: #262626;
+    --ui-raised: #1a1a1a;
+    --ui-hover: #242424;
+    --ui-border: #282828;
+    --ui-border-strong: #6e6e6e;
     --ui-text: #ededed;
     --ui-muted: #a3a3a3;
     --ui-accent: #ededed;
+    --ui-accent-hover: #c7c7c7;
     --ui-on-accent: #0a0a0a;
     --ui-focus: #60a5fa;
 
     --ui-pass: #4ade80;
-    --ui-pass-bg: #0f2a1a;
-    --ui-wait: #facc15;
-    --ui-wait-bg: #2a2306;
-    --ui-fail: #f87171;
-    --ui-fail-bg: #2c1012;
-    --ui-info: #93b4ff;
-    --ui-info-bg: #101c36;
+    --ui-pass-bg: #0e2a19;
+    --ui-wait: #fbbf24;
+    --ui-wait-bg: #2c2107;
+    --ui-fail: #ff7b7b;
+    --ui-fail-bg: #300f13;
+    --ui-info: #7fadff;
+    --ui-info-bg: #0f1e3d;
 
     --ui-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
     --ui-shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
     --ui-ring: 0 0 0 1px rgb(255 255 255 / 0.1);
   }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --ui-bg: #0a0a0a;
+  --ui-surface: #111111;
+  --ui-raised: #1a1a1a;
+  --ui-hover: #242424;
+  --ui-border: #282828;
+  --ui-border-strong: #6e6e6e;
+  --ui-text: #ededed;
+  --ui-muted: #a3a3a3;
+  --ui-accent: #ededed;
+  --ui-accent-hover: #c7c7c7;
+  --ui-on-accent: #0a0a0a;
+  --ui-focus: #60a5fa;
+
+  --ui-pass: #4ade80;
+  --ui-pass-bg: #0e2a19;
+  --ui-wait: #fbbf24;
+  --ui-wait-bg: #2c2107;
+  --ui-fail: #ff7b7b;
+  --ui-fail-bg: #300f13;
+  --ui-info: #7fadff;
+  --ui-info-bg: #0f1e3d;
+
+  --ui-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --ui-shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  --ui-ring: 0 0 0 1px rgb(255 255 255 / 0.1);
 }

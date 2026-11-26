@@ -1,11 +1,11 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync } from 'node:fs';
-import { read, stripComments, tokenBlocks, tokensJSON } from './css.mjs';
+import { read, stripComments, tokenBlocks, tokenDecls, tokensJSON } from './css.mjs';
 
 // tokens.json is the list consumers code against (the Go side and the QA dashboard). A token added to the
 // CSS but not the list, or listed but never declared, is a name some consumer reads as empty.
-const { light, dark } = tokenBlocks();
+const { light, dark, forced } = tokenBlocks();
 const groups = Object.values(tokensJSON().groups);
 const listed = groups.flatMap((g) => g.names);
 
@@ -27,17 +27,45 @@ test('dark mode redefines exactly the groups marked dark', () => {
   assert.deepEqual([...dark].sort(), [...want].sort());
 });
 
+// data-theme="dark" forces dark on a light OS. Its block is a copy of the media block; a copy that drifts
+// gives one product two dark themes depending on how the user picked dark.
+test("[data-theme='dark'] repeats the dark block exactly", () => {
+  const d = tokenDecls();
+  assert.deepEqual(forced, dark);
+  assert.deepEqual(new Map(d.forced), new Map(d.dark));
+});
+
+// Without these the browser draws scrollbars and form controls in the OS scheme, not the forced one.
+test('each data-theme sets its own color-scheme', () => {
+  const src = stripComments(read('css/tokens.css'));
+  for (const t of ['light', 'dark']) {
+    assert.match(src, new RegExp(`:root\\[data-theme='${t}'\\]\\s*\\{[^}]*color-scheme:\\s*${t};`));
+  }
+});
+
 // A var() of a name that does not exist falls back silently to the initial value, so the page just looks wrong.
-test('every var(--ui-*) in css/ is a declared token', () => {
+// A layer may keep private variables for one component (a button's colours per variant); they are named --_*,
+// never --ui-*, and must be declared in the same file that reads them.
+test('every var() in css/ is a declared token or a --_* local of the same file', () => {
   const known = new Set(light);
   const bad = readdirSync('css')
     .filter((f) => f.endsWith('.css'))
-    .flatMap((f) =>
-      [...stripComments(read(`css/${f}`)).matchAll(/var\((--[\w-]+)/g)]
+    .flatMap((f) => {
+      const src = stripComments(read(`css/${f}`));
+      const local = new Set([...src.matchAll(/(--_[\w-]+)\s*:/g)].map((m) => m[1]));
+      return [...src.matchAll(/var\((--[\w-]+)/g)]
         .map((m) => m[1])
-        .filter((n) => !known.has(n))
-        .map((n) => `css/${f}: ${n}`),
-    );
+        .filter((n) => !known.has(n) && !local.has(n))
+        .map((n) => `css/${f}: ${n}`);
+    });
+  assert.deepEqual(bad, []);
+});
+
+// Only tokens.css declares --ui-* names; a layer that declares one shadows the token for its subtree.
+test('no layer file declares a --ui-* property', () => {
+  const bad = readdirSync('css')
+    .filter((f) => f.endsWith('.css') && f !== 'tokens.css')
+    .flatMap((f) => [...stripComments(read(`css/${f}`)).matchAll(/(--ui-[\w-]+)\s*:/g)].map((m) => `css/${f}: ${m[1]}`));
   assert.deepEqual(bad, []);
 });
 
