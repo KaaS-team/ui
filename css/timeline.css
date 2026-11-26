@@ -1,0 +1,9 @@
+/* Event timelines (partial timeline). Placeholder for U1. */
+.ui-timeline {
+  list-style: none;
+  padding: 0;
+  border-left: 1px solid var(--ui-border);
+}
+.ui-timeline li {
+  padding: 0 0 var(--ui-space-3) var(--ui-space-4);
+}

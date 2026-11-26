@@ -1,0 +1,8 @@
+{{/* timeline: events oldest first. Data: ui.Timeline. */}}
+{{define "timeline"}}<ol class="ui-timeline">
+{{range .Events}}<li{{with .Status}} data-status="{{.}}"{{end}}>
+<time>{{.Time}}</time>
+<p class="ui-timeline-title">{{.Title}}</p>
+{{with .Body}}<p>{{.}}</p>{{end}}
+</li>
+{{end}}</ol>{{end}}

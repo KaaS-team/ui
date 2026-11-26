@@ -1,0 +1,9 @@
+/* Run logs (partial log). Placeholder for U1. */
+.ui-log {
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-type-xs);
+  background: var(--ui-raised);
+  padding: var(--ui-space-3);
+  border-radius: var(--ui-radius-md);
+  overflow-x: auto;
+}

@@ -1,0 +1,25 @@
+/* Status chips (partial chip). Placeholder for U1. */
+.ui-chip {
+  display: inline-flex;
+  padding: 0 var(--ui-space-2);
+  border-radius: var(--ui-radius-pill);
+  font-size: var(--ui-type-xs);
+  background: var(--ui-raised);
+  color: var(--ui-muted);
+}
+.ui-chip[data-status='pass'] {
+  background: var(--ui-pass-bg);
+  color: var(--ui-pass);
+}
+.ui-chip[data-status='wait'] {
+  background: var(--ui-wait-bg);
+  color: var(--ui-wait);
+}
+.ui-chip[data-status='fail'] {
+  background: var(--ui-fail-bg);
+  color: var(--ui-fail);
+}
+.ui-chip[data-status='info'] {
+  background: var(--ui-info-bg);
+  color: var(--ui-info);
+}

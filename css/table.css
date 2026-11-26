@@ -1,0 +1,12 @@
+/* Data tables (partial table). Placeholder for U1. */
+.ui-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--ui-type-sm);
+}
+.ui-table th,
+.ui-table td {
+  padding: var(--ui-space-2) var(--ui-space-3);
+  border-bottom: 1px solid var(--ui-border);
+  text-align: left;
+}

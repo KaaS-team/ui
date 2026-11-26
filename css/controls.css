@@ -1,0 +1,13 @@
+/* Buttons, fields and selects (partials button, form, approval). The only file that styles a select. Placeholder for U1. */
+.ui-button {
+  font: inherit;
+  padding: var(--ui-space-2) var(--ui-space-4);
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+}
+.ui-button[data-variant='primary'] {
+  background: var(--ui-accent);
+  color: var(--ui-on-accent);
+}

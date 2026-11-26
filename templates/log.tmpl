@@ -1,0 +1,6 @@
+{{/* log: run output, one line each. Data: ui.Log. */}}
+{{define "log"}}<section class="ui-log-wrap">
+{{with .Title}}<h3>{{.}}</h3>{{end}}
+<pre class="ui-log">{{range .Lines}}<span class="ui-log-line"{{with .Status}} data-status="{{.}}"{{end}}>{{with .Time}}<time>{{.}}</time> {{end}}{{.Text}}</span>
+{{end}}</pre>
+</section>{{end}}

@@ -1,0 +1,11 @@
+{{/* shell: a whole page, nav rail beside the main column. Data: ui.Shell. */}}
+{{define "shell"}}<!doctype html>
+<html lang="en">
+{{template "head" .Head}}
+<body>
+<div class="ui-shell">
+{{template "nav" .Nav}}
+<main class="ui-main">{{.Body}}</main>
+</div>
+</body>
+</html>{{end}}

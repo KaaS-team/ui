@@ -1,0 +1,78 @@
+{
+  "$comment": "Read by the kaas-eng plugin hooks. The gate is `just check`; CI runs the same in .github/workflows/check.yml.",
+  "name": "ui",
+  "gate": "just check",
+  "test": "go test ./... && node --test test/*.test.mjs",
+  "ci": {
+    "runner": "github"
+  },
+  "formatters": {
+    ".go": "gofmt -w"
+  },
+  "impact": {
+    "$comment": "Go embeds css/ and templates/, so a CSS or template change reaches the Go tests too. The colour scan reads .go, .tmpl and .css files. The kit expands make and npm gates only, so `just check` sits in fullOnly; its five recipes are each covered by a check below.",
+    "base": "origin/main",
+    "full": [
+      "justfile",
+      ".agents/repo.json",
+      ".github/**",
+      "go.mod"
+    ],
+    "ignore": [
+      "LICENSE",
+      ".gitignore",
+      "package.json",
+      "scripts/kaas/check-quality.py",
+      "scripts/kaas/check-security.py",
+      "scripts/kaas/semgrep.yml"
+    ],
+    "checks": [
+      {
+        "name": "go",
+        "when": [
+          "*.go",
+          "templates/**",
+          "css/**",
+          "tokens.json"
+        ],
+        "run": "just fmt vet test",
+        "covers": [
+          "fmt",
+          "vet",
+          "test"
+        ]
+      },
+      {
+        "name": "tokens",
+        "when": [
+          "css/**",
+          "tokens.json",
+          "test/**",
+          "colour-allow.txt",
+          "templates/**",
+          "*.go"
+        ],
+        "run": "just tokens",
+        "covers": [
+          "tokens"
+        ]
+      },
+      {
+        "name": "prose",
+        "when": [
+          "**/*.md",
+          "*.md",
+          "scripts/kaas/check-prose.py",
+          "scripts/kaas/house_rules.py"
+        ],
+        "run": "just prose",
+        "covers": [
+          "prose"
+        ]
+      }
+    ],
+    "fullOnly": [
+      "just check"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{{/* form: labelled fields and one submit button. Data: ui.Form. */}}
+{{define "form"}}<form class="ui-form" action="{{.Action}}" method="{{or .Method "post"}}">
+{{with .CSRF}}<input type="hidden" name="csrf" value="{{.}}">{{end}}
+{{range .Fields}}<div class="ui-field">
+<label for="f-{{.Name}}">{{.Label}}</label>
+{{if eq .Type "textarea"}}<textarea class="ui-input" id="f-{{.Name}}" name="{{.Name}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}>{{.Value}}</textarea>
+{{else if eq .Type "select"}}<select class="ui-input" id="f-{{.Name}}" name="{{.Name}}"{{if .Required}} required{{end}}>{{$v := .Value}}{{range .Options}}<option{{if eq . $v}} selected{{end}}>{{.}}</option>{{end}}</select>
+{{else}}<input class="ui-input" id="f-{{.Name}}" name="{{.Name}}" type="{{or .Type "text"}}" value="{{.Value}}"{{with .Placeholder}} placeholder="{{.}}"{{end}}{{if .Required}} required{{end}}>
+{{end}}{{with .Help}}<p class="ui-field-help">{{.}}</p>{{end}}
+</div>
+{{end}}{{template "button" .Submit}}
+</form>{{end}}

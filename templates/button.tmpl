@@ -1,0 +1,2 @@
+{{/* button: a link when Href is set, otherwise a <button>. Data: ui.Button. */}}
+{{define "button"}}{{if .Href}}<a class="ui-button" href="{{.Href}}"{{with .Variant}} data-variant="{{.}}"{{end}}>{{.Label}}</a>{{else}}<button class="ui-button" type="{{or .Type "button"}}"{{with .Variant}} data-variant="{{.}}"{{end}}{{with .Name}} name="{{.}}"{{end}}{{with .Value}} value="{{.}}"{{end}}>{{.Label}}</button>{{end}}{{end}}

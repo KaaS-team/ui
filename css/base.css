@@ -1,0 +1,16 @@
+/* Reset and body type. Placeholder for U1. */
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+body {
+  font-family: var(--ui-font-sans);
+  font-size: var(--ui-type-md);
+  line-height: var(--ui-leading);
+  background: var(--ui-bg);
+  color: var(--ui-text);
+}
+:focus-visible {
+  outline: 2px solid var(--ui-focus);
+  outline-offset: 2px;
+}

@@ -1,0 +1,9 @@
+{{/* approval: a decision a person approves or rejects. Data: ui.Approval. */}}
+{{define "approval"}}<section class="ui-approval">
+<h3>{{.Title}}</h3>
+{{with .Summary}}<p>{{.}}</p>{{end}}
+<div class="ui-approval-actions">
+<form method="post" action="{{.ApproveURL}}">{{with .CSRF}}<input type="hidden" name="csrf" value="{{.}}">{{end}}<button class="ui-button" type="submit" data-variant="primary">Approve</button></form>
+<form method="post" action="{{.RejectURL}}">{{with .CSRF}}<input type="hidden" name="csrf" value="{{.}}">{{end}}<button class="ui-button" type="submit" data-variant="danger">Reject</button></form>
+</div>
+</section>{{end}}

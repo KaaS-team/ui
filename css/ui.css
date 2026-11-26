@@ -1,0 +1,9 @@
+/* The whole design system in one import. Order matters: tokens, then base, then each layer. */
+@import url('tokens.css');
+@import url('base.css');
+@import url('shell.css');
+@import url('table.css');
+@import url('controls.css');
+@import url('chip.css');
+@import url('log.css');
+@import url('timeline.css');

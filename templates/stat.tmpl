@@ -1,0 +1,6 @@
+{{/* stat: one number with its label and an optional change. Data: ui.Stat. */}}
+{{define "stat"}}<div class="ui-stat"{{with .Status}} data-status="{{.}}"{{end}}>
+<p class="ui-stat-label">{{.Label}}</p>
+<p class="ui-stat-value">{{.Value}}</p>
+{{with .Delta}}<p class="ui-stat-delta">{{.}}</p>{{end}}
+</div>{{end}}

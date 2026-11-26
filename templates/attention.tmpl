@@ -1,0 +1,6 @@
+{{/* attention: a banner that asks a person to look at something. Data: ui.Attention. */}}
+{{define "attention"}}<div class="ui-attention" role="status"{{with .Status}} data-status="{{.}}"{{end}}>
+<p class="ui-attention-title">{{.Title}}</p>
+{{with .Body}}<p>{{.}}</p>{{end}}
+{{with .Action}}{{template "button" .}}{{end}}
+</div>{{end}}

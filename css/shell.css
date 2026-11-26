@@ -1,0 +1,9 @@
+/* App shell: nav rail and main column (partials shell, nav, stat, attention, empty). Placeholder for U1. */
+.ui-shell {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+}
+.ui-main {
+  padding: var(--ui-space-5);
+}

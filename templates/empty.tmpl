@@ -1,0 +1,6 @@
+{{/* empty: what a list says when it has nothing yet. Data: ui.Empty. */}}
+{{define "empty"}}<div class="ui-empty">
+<p class="ui-empty-title">{{.Title}}</p>
+{{with .Body}}<p>{{.}}</p>{{end}}
+{{with .Action}}{{template "button" .}}{{end}}
+</div>{{end}}

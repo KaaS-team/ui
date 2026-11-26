@@ -1,0 +1,2 @@
+# Files allowed a raw colour outside css/tokens.css, one per line: `path  reason`.
+# test/colours.test.mjs fails on an entry without a reason or for a file that no longer needs it.
