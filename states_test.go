@@ -30,7 +30,7 @@ func TestPartialStates(t *testing.T) {
 		{"table error", "table", Table{Caption: "Runs", Error: "down"}, []string{`role="alert"`, "Runs: could not load", "down"}, []string{"<table"}},
 		{"table empty", "table", Table{Empty: Empty{Title: "None"}}, []string{"ui-empty", "None"}, []string{"<table"}},
 		{"fail attention alerts", "attention", Attention{Status: StatusFail, Title: "x"}, []string{`role="alert"`}, nil},
-		{"wait attention is status", "attention", Attention{Status: StatusWait, Title: "x", Actions: []Button{{Label: "A"}, {Label: "B"}}}, []string{`role="status"`, ">A<", ">B<"}, nil},
+		{"wait attention is status", "attention", Attention{Status: StatusWait, Title: "x", Actions: []Button{{Label: "A"}, {Label: "B"}}}, []string{`role="status"`, `<div class="ui-row ui-attention-actions">`, ">A<", ">B<"}, nil},
 		{"approval posts sha", "approval", Approval{Title: "P", ApproveURL: "/a", RejectURL: "/r", SHA: "abc1234", DiffURL: "/d"}, []string{`name="sha" value="abc1234"`, `<code>abc1234</code>`, `href="/d"`, "Approve", "Reject"}, nil},
 		{"decided approval has no buttons", "approval", Approval{Title: "P", Decided: "Approved"}, []string{"Approved"}, []string{"<button"}},
 		{"form field help and error", "form", Form{ID: "s", Fields: []Field{{Name: "n", Label: "N", Help: "h", Error: "e"}}}, []string{`id="s-n"`, `for="s-n"`, `aria-invalid="true"`, `aria-describedby="s-n-help s-n-error"`, `id="s-n-error"`}, nil},

@@ -184,7 +184,7 @@ func CatalogueSections() []CatalogueSection {
 		}},
 		{Name: "table", Summary: "A data table. With no rows it shows its empty state; it also has loading and error states.", States: []CatalogueState{
 			{Label: "Rows", Data: Table{Caption: "Runs today", Columns: []string{"Run", "Repository", "State", "Took"}, Rows: many[:4]}, Wide: true},
-			{Label: "Loading", Data: Table{Caption: "Runs today", Columns: []string{"Run", "Repository", "State", "Took"}, Loading: true}},
+			{Label: "Loading", Data: Table{Caption: "Runs yesterday", Columns: []string{"Run", "Repository", "State", "Took"}, Loading: true}},
 			{Label: "Error", Data: Table{Caption: "Runs today", Columns: []string{"Run"}, Error: "The run list did not load. Reload the page to try again."}},
 			{Label: "Empty", Data: Table{Caption: "Runs today", Columns: []string{"Run"}, Empty: Empty{Title: "No runs yet", Body: "Label an issue to start one.", Action: &Button{Label: "Open issues", Href: "#table"}}}},
 			{Label: "Long text", Data: Table{Caption: "Plans", Columns: []string{"Plan", "Summary"}, Rows: [][]string{{"#12", longText}, {"#13", "Short."}}}},

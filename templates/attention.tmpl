@@ -1,6 +1,6 @@
-{{/* attention: an item that needs a person: what, why, and what they can do. Data: ui.Attention. */}}
+{{/* attention: an item that needs a person: what, why, and what they can do. One button stays a direct child so css/shell.css puts it beside the text; several go in a row below it. Data: ui.Attention. */}}
 {{define "attention"}}<div class="ui-attention" role="{{if eq .Status "fail"}}alert{{else}}status{{end}}"{{with .Status}} data-status="{{.}}"{{end}}>
 <p class="ui-attention-title">{{.Title}}</p>
 {{with .Body}}<p class="ui-attention-body">{{.}}</p>{{end}}
-{{if or .Action .Actions}}<div class="ui-attention-actions">{{with .Action}}{{template "button" .}}{{end}}{{range .Actions}}{{template "button" .}}{{end}}</div>{{end}}
+{{if and .Action (not .Actions)}}{{template "button" .Action}}{{else if .Actions}}<div class="ui-row ui-attention-actions">{{with .Action}}{{template "button" .}}{{end}}{{range .Actions}}{{template "button" .}}{{end}}</div>{{end}}
 </div>{{end}}

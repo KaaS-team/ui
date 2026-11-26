@@ -2,7 +2,7 @@
 {{define "table"}}{{if .Error}}<div class="ui-attention" role="alert" data-status="fail">
 <p class="ui-attention-title">{{with .Caption}}{{.}}: {{end}}could not load</p>
 <p class="ui-attention-body">{{.Error}}</p>
-</div>{{else if or .Rows .Loading}}<div class="ui-table-wrap">
+</div>{{else if or .Rows .Loading}}<div class="ui-table-wrap" role="region" aria-label="{{or .Caption "Table"}}, scrollable" tabindex="0">
 <table class="ui-table"{{if .Loading}} aria-busy="true"{{end}}>
 {{with .Caption}}<caption>{{.}}</caption>{{end}}
 <thead><tr>{{range .Columns}}<th scope="col">{{.}}</th>{{end}}</tr></thead>

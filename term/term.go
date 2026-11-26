@@ -36,15 +36,19 @@ func (c Color) Pick(dark bool) string {
 // Theme holds every colour and status token. The token tag on each field names the CSS custom property it
 // is read from; Groups lists the tokens.json groups those tags must cover exactly.
 type Theme struct {
-	Bg       Color `token:"--ui-bg"`
-	Surface  Color `token:"--ui-surface"`
-	Raised   Color `token:"--ui-raised"`
-	Border   Color `token:"--ui-border"`
-	Text     Color `token:"--ui-text"`
-	Muted    Color `token:"--ui-muted"`
-	Accent   Color `token:"--ui-accent"`
-	OnAccent Color `token:"--ui-on-accent"`
-	Focus    Color `token:"--ui-focus"`
+	Bg      Color `token:"--ui-bg"`
+	Surface Color `token:"--ui-surface"`
+	Raised  Color `token:"--ui-raised"`
+	Border  Color `token:"--ui-border"`
+	// BorderStrong is the border of inputs and hovered rows.
+	BorderStrong Color `token:"--ui-border-strong"`
+	Hover        Color `token:"--ui-hover"`
+	Text         Color `token:"--ui-text"`
+	Muted        Color `token:"--ui-muted"`
+	Accent       Color `token:"--ui-accent"`
+	AccentHover  Color `token:"--ui-accent-hover"`
+	OnAccent     Color `token:"--ui-on-accent"`
+	Focus        Color `token:"--ui-focus"`
 
 	Pass   Color `token:"--ui-pass"`
 	PassBg Color `token:"--ui-pass-bg"`
