@@ -1,9 +1,107 @@
-/* Event timelines (partial timeline). Placeholder for U1. */
+/* Event timelines (partial timeline). A run's steps oldest first: a marker on a rail, the step title, its time,
+   an optional duration and a body line.
+
+   <ol class="ui-timeline">
+     <li data-status="pass"><time>09:20</time><p class="ui-timeline-title">Built</p>
+       <span class="ui-timeline-duration">1m 12s</span><p>Gate passed.</p></li>
+   </ol>
+
+   data-status colours the marker: pass (done), wait (running, the marker pulses), fail, info; none is pending.
+   The title text says what happened, so the marker colour is never the only signal. */
+
 .ui-timeline {
-  list-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
   padding: 0;
-  border-left: 1px solid var(--ui-border);
 }
-.ui-timeline li {
-  padding: 0 0 var(--ui-space-3) var(--ui-space-4);
+
+.ui-timeline > li {
+  --_marker: var(--ui-border-strong);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'title time'
+    'body duration';
+  column-gap: var(--ui-space-3);
+  padding: 0 0 var(--ui-space-4) var(--ui-space-6);
+  font-size: var(--ui-type-sm);
+}
+
+/* the rail: a line from this marker to the next */
+.ui-timeline > li::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  bottom: -4px;
+  left: 7px;
+  width: 1px;
+  background: var(--ui-border);
+}
+.ui-timeline > li:last-child::before {
+  display: none;
+}
+
+/* the marker */
+.ui-timeline > li::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--_marker);
+  border-radius: 50%;
+  background: var(--ui-surface);
+}
+.ui-timeline > li[data-status]::after {
+  background: var(--_marker);
+}
+.ui-timeline > li[data-status='pass'] {
+  --_marker: var(--ui-pass);
+}
+.ui-timeline > li[data-status='wait'] {
+  --_marker: var(--ui-wait);
+}
+.ui-timeline > li[data-status='fail'] {
+  --_marker: var(--ui-fail);
+}
+.ui-timeline > li[data-status='info'] {
+  --_marker: var(--ui-info);
+}
+.ui-timeline > li[data-status='wait']::after {
+  animation: ui-timeline-pulse 1.6s var(--ui-ease) infinite;
+}
+@keyframes ui-timeline-pulse {
+  50% {
+    box-shadow: 0 0 0 4px var(--ui-wait-bg);
+  }
+}
+
+.ui-timeline-title {
+  grid-area: title;
+  font-weight: 500;
+}
+.ui-timeline > li > time {
+  grid-area: time;
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  line-height: 20px;
+}
+.ui-timeline-duration {
+  grid-area: duration;
+  color: var(--ui-muted);
+  font-family: var(--ui-font-mono);
+  font-size: var(--ui-type-xs);
+  text-align: right;
+}
+.ui-timeline > li > p:not(.ui-timeline-title) {
+  grid-area: body;
+  color: var(--ui-muted);
+}
+.ui-timeline > li[data-status='fail'] > p:not(.ui-timeline-title) {
+  color: var(--ui-fail);
 }

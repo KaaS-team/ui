@@ -1,12 +1,127 @@
-/* Data tables (partial table). Placeholder for U1. */
+/* Data tables (partial table). Dense rows, a header that sticks, row states, numbers aligned on the right.
+
+   <div class="ui-table-wrap">            optional: scrolls sideways on narrow screens and caps the height
+     <table class="ui-table">
+       <thead><tr><th scope="col">Run</th><th scope="col" class="ui-num">Duration</th></tr></thead>
+       <tbody><tr data-status="fail" aria-selected="true">…</tr></tbody>
+     </table>
+   </div>
+
+   Row states: :hover, aria-selected="true", data-status on the row (a 2px edge in the status colour; the row
+   keeps a chip or text that says the status), and aria-disabled="true" for rows that no longer apply. */
+
+.ui-table-wrap {
+  max-width: 100%;
+  overflow: auto;
+  overscroll-behavior-x: contain;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-lg);
+}
+.ui-table-wrap[data-height='md'] {
+  max-height: 420px;
+}
+.ui-table-wrap > .ui-table {
+  border: 0;
+  border-radius: 0;
+}
+.ui-card > .ui-table-wrap {
+  border: 0;
+  border-radius: 0 0 var(--ui-radius-lg) var(--ui-radius-lg);
+}
+
 .ui-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--ui-surface);
   font-size: var(--ui-type-sm);
+  font-variant-numeric: tabular-nums;
 }
+
+.ui-table caption {
+  padding: var(--ui-space-3) var(--ui-space-3) var(--ui-space-2);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-weight: 500;
+  text-align: left;
+}
+
 .ui-table th,
 .ui-table td {
-  padding: var(--ui-space-2) var(--ui-space-3);
+  height: 36px;
+  padding: var(--ui-space-1) var(--ui-space-3);
   border-bottom: 1px solid var(--ui-border);
   text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.ui-table td.ui-wrap {
+  min-width: 24ch;
+  white-space: normal;
+}
+
+.ui-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 32px;
+  background: var(--ui-raised);
+  color: var(--ui-muted);
+  font-size: var(--ui-type-xs);
+  font-weight: 500;
+}
+
+.ui-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+/* numbers: right aligned, fixed width digits */
+.ui-table .ui-num {
+  text-align: right;
+}
+
+/* a cell that is a link to the row's page */
+.ui-table td a {
+  color: var(--ui-text);
+  font-weight: 500;
+  text-decoration: none;
+}
+.ui-table td a:hover {
+  text-decoration: underline;
+}
+
+/* row states */
+.ui-table tbody tr {
+  transition: background var(--ui-dur-quick) var(--ui-ease);
+}
+.ui-table tbody tr:hover > * {
+  background: var(--ui-hover);
+}
+.ui-table tbody tr[aria-selected='true'] > * {
+  background: var(--ui-info-bg);
+}
+.ui-table tbody tr[data-status] > :first-child {
+  box-shadow: inset 2px 0 0 var(--ui-border-strong);
+}
+.ui-table tbody tr[data-status='pass'] > :first-child {
+  box-shadow: inset 2px 0 0 var(--ui-pass);
+}
+.ui-table tbody tr[data-status='wait'] > :first-child {
+  box-shadow: inset 2px 0 0 var(--ui-wait);
+}
+.ui-table tbody tr[data-status='fail'] > :first-child {
+  box-shadow: inset 2px 0 0 var(--ui-fail);
+}
+.ui-table tbody tr[data-status='info'] > :first-child {
+  box-shadow: inset 2px 0 0 var(--ui-info);
+}
+.ui-table tbody tr[aria-disabled='true'] > * {
+  color: var(--ui-muted);
+}
+
+/* the first column carries the row name; the last holds row actions */
+.ui-table .ui-actions {
+  width: 1%;
+  text-align: right;
 }

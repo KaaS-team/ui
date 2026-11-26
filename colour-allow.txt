@@ -1,2 +1,5 @@
 # Files allowed a raw colour outside css/tokens.css, one per line: `path  reason`.
 # test/colours.test.mjs fails on an entry without a reason or for a file that no longer needs it.
+# The ceiling is a ratchet: it must equal the number of entries, so the list can only grow by raising it
+# in a reviewed diff, and a removed entry must lower it in the same change.
+ceiling: 0
